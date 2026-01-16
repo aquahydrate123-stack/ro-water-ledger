@@ -203,7 +203,7 @@
                             @forelse ($recentSales as $sale)
                                 <tr class="hover:bg-slate-700 transition-colors">
                                     <td class="px-6 py-4 whitespace-nowrap text-xs font-semibold text-slate-400">
-                                        {{ $sale->created_at->format('M d, Y') }}
+                                        {{ $sale->sale_date->format('M d, Y') }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-white">
                                         {{ $sale->customer ? $sale->customer->name : 'Walk-in Customer' }}

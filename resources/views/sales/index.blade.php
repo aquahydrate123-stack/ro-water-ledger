@@ -68,7 +68,7 @@
                                     <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition duration-150">
                                         <td
                                             class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-700 dark:text-gray-200">
-                                            {{ $sale->created_at->format('M d, Y') }}
+                                            {{ $sale->sale_date->format('M d, Y') }}
                                         </td>
                                         <td
                                             class="px-6 py-4 whitespace-nowrap text-sm font-bold text-gray-900 dark:text-white">
@@ -101,7 +101,7 @@
                                             @if ($sale->customer && $sale->customer->phone && $sale->invoice)
                                                 @php
                                                     $phone = preg_replace('/[^0-9]/', '', $sale->customer->phone);
-                                                    $message = urlencode("Dear {$sale->customer->name}, here is your Invoice #{$sale->invoice->invoice_number} for Amount {$sale->total_amount}. Date: " . $sale->created_at->format('Y-m-d'));
+                                                    $message = urlencode("Dear {$sale->customer->name}, here is your Invoice #{$sale->invoice->invoice_number} for Amount {$sale->total_amount}. Date: " . $sale->sale_date->format('Y-m-d'));
                                                     $waLink = "https://wa.me/{$phone}?text={$message}";
                                                 @endphp
                                                 <a href="{{ $waLink }}" target="_blank"
