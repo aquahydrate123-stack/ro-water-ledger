@@ -2,7 +2,9 @@
     <x-slot name="header">
         <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 flex justify-between items-end">
             <div class="flex flex-col">
-                <h2 class="text-3xl font-black tracking-tight" style="background: linear-gradient(to right, #2563eb, #9333ea); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">AQUA HYDRATE</h2>
+                <h2 class="text-3xl font-black tracking-tight"
+                    style="background: linear-gradient(to right, #2563eb, #9333ea); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                    AQUA HYDRATE</h2>
             </div>
 
             <!-- Global Privacy Toggle -->
@@ -31,7 +33,8 @@
                 </a>
 
                 <a href="{{ route('expenses.create') }}"
-                    class="group relative overflow-hidden rounded-lg bg-slate-800 border border-slate-700 shadow-sm transition-all hover:scale-[1.02]" style="background-color: #1e293b; border-color: #334155;">
+                    class="group relative overflow-hidden rounded-lg bg-slate-800 border border-slate-700 shadow-sm transition-all hover:scale-[1.02]"
+                    style="background-color: #1e293b; border-color: #334155;">
                     <div
                         class="flex items-center justify-center space-x-2 px-4 py-2 transition-colors group-hover:bg-slate-700 h-full">
                         <i class="fas fa-file-invoice-dollar text-xs text-slate-400 group-hover:text-slate-200"></i>
@@ -40,7 +43,8 @@
                 </a>
 
                 <a href="{{ route('customers.create') }}"
-                    class="group relative overflow-hidden rounded-lg bg-slate-800 border border-slate-700 shadow-sm transition-all hover:scale-[1.02]" style="background-color: #1e293b; border-color: #334155;">
+                    class="group relative overflow-hidden rounded-lg bg-slate-800 border border-slate-700 shadow-sm transition-all hover:scale-[1.02]"
+                    style="background-color: #1e293b; border-color: #334155;">
                     <div
                         class="flex items-center justify-center space-x-2 px-4 py-2 transition-colors group-hover:bg-slate-700 h-full">
                         <i class="fas fa-user-plus text-xs text-slate-400 group-hover:text-slate-200"></i>
@@ -53,74 +57,88 @@
 
             <!-- 1. Summary Cards Section (V2 - Match Screenshot - INLINE STYLES) -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                
+
                 <!-- Card 1: Total Receivables (Red Theme) -->
-                <div style="background-color: #FFF5F5; border-left: 8px solid #EF4444;" 
-                     class="rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow cursor-pointer relative overflow-hidden group"
-                     @click="showValues = !showValues">
+                <div style="background-color: #FFF5F5; border-left: 8px solid #EF4444;"
+                    class="rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow cursor-pointer relative overflow-hidden group"
+                    @click="showValues = !showValues">
                     <div class="relative z-10 flex flex-col justify-between h-full">
-                        <span style="color: #EF4444;" class="text-[11px] font-black uppercase tracking-widest mb-3">Total Receivables</span>
-                        <div style="color: #1e293b;" class="text-[32px] font-black tracking-tighter" x-show="showValues" x-transition.opacity>
+                        <span style="color: #EF4444;"
+                            class="text-[11px] font-black uppercase tracking-widest mb-3">Total Receivables
+                            ({{ $label }})</span>
+                        <div style="color: #1e293b;" class="text-[32px] font-black tracking-tighter" x-show="showValues"
+                            x-transition.opacity>
                             {{ number_format($totalReceivables, 2) }}
                         </div>
-                        <div style="color: #1e293b;" class="text-[32px] font-black tracking-tighter select-none" x-show="!showValues">
+                        <div style="color: #1e293b;" class="text-[32px] font-black tracking-tighter select-none"
+                            x-show="!showValues">
                             •••••••
                         </div>
                     </div>
                 </div>
 
-                <!-- Card 2: Today's Sales (Cyan Theme) -->
+                <!-- Card 2: Sales (Cyan Theme) -->
                 <div style="background-color: #F0FDFA; border-left: 8px solid #06B6D4;"
-                     class="rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow cursor-pointer relative overflow-hidden group"
-                     @click="showValues = !showValues">
+                    class="rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow cursor-pointer relative overflow-hidden group"
+                    @click="showValues = !showValues">
                     <div class="relative z-10 flex flex-col justify-between h-full">
-                        <span style="color: #06B6D4;" class="text-[11px] font-black uppercase tracking-widest mb-3">Today's Sales</span>
-                        <div style="color: #1e293b;" class="text-[32px] font-black tracking-tighter" x-show="showValues" x-transition.opacity>
+                        <span style="color: #06B6D4;"
+                            class="text-[11px] font-black uppercase tracking-widest mb-3">{{ $label }}'s Sales</span>
+                        <div style="color: #1e293b;" class="text-[32px] font-black tracking-tighter" x-show="showValues"
+                            x-transition.opacity>
                             {{ number_format($totalSales, 2) }}
                         </div>
-                        <div style="color: #1e293b;" class="text-[32px] font-black tracking-tighter select-none" x-show="!showValues">
+                        <div style="color: #1e293b;" class="text-[32px] font-black tracking-tighter select-none"
+                            x-show="!showValues">
                             •••••••
                         </div>
                     </div>
                 </div>
 
-                <!-- Card 3: Today's Expenses (Orange Theme) -->
+                <!-- Card 3: Expenses (Orange Theme) -->
                 <div style="background-color: #FFF7ED; border-left: 8px solid #F97316;"
-                     class="rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow cursor-pointer relative overflow-hidden group"
-                     @click="showValues = !showValues">
+                    class="rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow cursor-pointer relative overflow-hidden group"
+                    @click="showValues = !showValues">
                     <div class="relative z-10 flex flex-col justify-between h-full">
-                        <span style="color: #F97316;" class="text-[11px] font-black uppercase tracking-widest mb-3">Today's Expenses</span>
-                        <div style="color: #1e293b;" class="text-[32px] font-black tracking-tighter" x-show="showValues" x-transition.opacity>
+                        <span style="color: #F97316;"
+                            class="text-[11px] font-black uppercase tracking-widest mb-3">{{ $label }}'s Expenses</span>
+                        <div style="color: #1e293b;" class="text-[32px] font-black tracking-tighter" x-show="showValues"
+                            x-transition.opacity>
                             {{ number_format($totalExpenses, 2) }}
                         </div>
-                        <div style="color: #1e293b;" class="text-[32px] font-black tracking-tighter select-none" x-show="!showValues">
+                        <div style="color: #1e293b;" class="text-[32px] font-black tracking-tighter select-none"
+                            x-show="!showValues">
                             •••••••
                         </div>
                     </div>
                 </div>
 
-                <!-- Card 4: Net Cash Today (Green Theme) -->
+                <!-- Card 4: Net Cash (Green Theme) -->
                 <div style="background-color: #F0FDF4; border-left: 8px solid #22C55E;"
-                     class="rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow cursor-pointer relative overflow-hidden group"
-                     @click="showValues = !showValues">
+                    class="rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow cursor-pointer relative overflow-hidden group"
+                    @click="showValues = !showValues">
                     <div class="relative z-10 flex flex-col justify-between h-full">
-                        <span style="color: #22C55E;" class="text-[11px] font-black uppercase tracking-widest mb-3">Net Cash Today</span>
-                        <div style="color: #1e293b;" class="text-[32px] font-black tracking-tighter" x-show="showValues" x-transition.opacity>
+                        <span style="color: #22C55E;" class="text-[11px] font-black uppercase tracking-widest mb-3">Net
+                            Cash ({{ $label }})</span>
+                        <div style="color: #1e293b;" class="text-[32px] font-black tracking-tighter" x-show="showValues"
+                            x-transition.opacity>
                             {{ number_format($cashInHand, 2) }}
                         </div>
-                        <div style="color: #1e293b;" class="text-[32px] font-black tracking-tighter select-none" x-show="!showValues">
+                        <div style="color: #1e293b;" class="text-[32px] font-black tracking-tighter select-none"
+                            x-show="!showValues">
                             •••••••
                         </div>
                     </div>
                 </div>
 
-            <!-- End of Summary Cards Grid -->
+                <!-- End of Summary Cards Grid -->
             </div>
             <!-- Spacer between Cards and Transactions -->
             <div style="height: 3rem;"></div>
 
             <!-- 3. Recent Transactions -->
-            <div style="background-color: #1e293b; border-color: #334155;" class="mb-8 rounded-2xl border shadow-sm overflow-hidden">
+            <div style="background-color: #1e293b; border-color: #334155;"
+                class="mb-8 rounded-2xl border shadow-sm overflow-hidden">
                 <div style="background-color: #334155; border-color: #475569;"
                     class="px-6 py-4 border-b flex justify-between items-center">
                     <h3 class="text-xs font-bold text-slate-300 uppercase tracking-widest">Recent Transactions</h3>
@@ -152,8 +170,7 @@
                                     <td class="px-6 py-4 whitespace-nowrap text-xs font-semibold text-slate-400">
                                         {{ $sale->created_at->format('M d, Y') }}
                                     </td>
-                                    <td
-                                        class="px-6 py-4 whitespace-nowrap text-sm font-bold text-white">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-white">
                                         {{ $sale->customer ? $sale->customer->name : 'Walk-in Customer' }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-center">
@@ -162,8 +179,7 @@
                                             {{ $sale->sale_type }}
                                         </span>
                                     </td>
-                                    <td
-                                        class="px-6 py-4 whitespace-nowrap text-right text-sm font-bold text-white">
+                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-bold text-white">
                                         <span x-show="showValues">{{ number_format($sale->total_amount, 2) }}</span>
                                         <span x-show="!showValues" class="text-slate-500">••••••</span>
                                     </td>
@@ -183,18 +199,38 @@
 
 
 
-            <!-- Filter Controls (Moved Below Quick Actions) -->
+            <!-- Filter Controls -->
             <div style="background-color: #1e293b; border-color: #334155;"
-                class="flex justify-between items-center p-4 rounded-xl border shadow-sm mb-8">
+                class="flex flex-col sm:flex-row justify-between items-center p-4 rounded-xl border shadow-sm mb-8 space-y-4 sm:space-y-0">
                 <span class="text-xs font-bold text-slate-400 uppercase tracking-wide">Data Filter</span>
-                <form action="{{ route('dashboard') }}" method="GET">
+                <form action="{{ route('dashboard') }}" method="GET" class="flex flex-wrap items-center gap-3">
                     <select name="filter" onchange="this.form.submit()"
-                        class="text-xs font-semibold border-none rounded-lg py-2 pl-4 pr-10 text-slate-300 focus:ring-2 focus:ring-blue-500 cursor-pointer transition-colors" style="background-color: #334155;">
-                        <option value="all" {{ $filter == 'all' ? 'selected' : '' }}>All Time</option>
+                        class="text-xs font-semibold border-none rounded-lg py-2 pl-4 pr-10 text-slate-300 focus:ring-2 focus:ring-blue-500 cursor-pointer transition-colors"
+                        style="background-color: #334155;">
                         <option value="daily" {{ $filter == 'daily' ? 'selected' : '' }}>Today</option>
                         <option value="monthly" {{ $filter == 'monthly' ? 'selected' : '' }}>This Month</option>
+                        <option value="last_month" {{ $filter == 'last_month' ? 'selected' : '' }}>Last Month</option>
                         <option value="yearly" {{ $filter == 'yearly' ? 'selected' : '' }}>This Year</option>
+                        <option value="last_year" {{ $filter == 'last_year' ? 'selected' : '' }}>Last Year</option>
+                        <option value="all" {{ $filter == 'all' ? 'selected' : '' }}>All Time</option>
+                        <option value="custom" {{ $filter == 'custom' ? 'selected' : '' }}>Custom Period</option>
                     </select>
+
+                    @if($filter === 'custom')
+                        <div class="flex items-center space-x-2">
+                            <input type="date" name="start_date" value="{{ $startDateStr }}"
+                                class="text-xs font-semibold border-none rounded-lg py-1.5 px-3 text-slate-300 focus:ring-2 focus:ring-blue-500"
+                                style="background-color: #334155;">
+                            <span class="text-slate-500 text-xs">to</span>
+                            <input type="date" name="end_date" value="{{ $endDateStr }}"
+                                class="text-xs font-semibold border-none rounded-lg py-1.5 px-3 text-slate-300 focus:ring-2 focus:ring-blue-500"
+                                style="background-color: #334155;">
+                            <button type="submit"
+                                class="bg-blue-600 hover:bg-blue-500 text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-lg transition-colors">
+                                Apply
+                            </button>
+                        </div>
+                    @endif
                 </form>
             </div>
 
@@ -205,8 +241,8 @@
                     class="lg:col-span-8 p-6 rounded-2xl border shadow-sm">
                     <div class="flex justify-between items-center mb-6">
                         <h4 class="text-xs font-bold text-slate-400 uppercase tracking-widest">Revenue Flow</h4>
-                        <span
-                            class="text-[10px] font-bold text-slate-300 px-2 py-1 rounded" style="background-color: #334155;">Monthly</span>
+                        <span class="text-[10px] font-bold text-slate-300 px-2 py-1 rounded"
+                            style="background-color: #334155;">Monthly</span>
                     </div>
                     <div class="h-[320px]">
                         <canvas id="trendChart"></canvas>
@@ -228,19 +264,20 @@
                                     <div class="w-2.5 h-2.5 rounded-sm mr-3"
                                         style="background-color: {{ ['#3b82f6', '#ef4444', '#f59e0b', '#10b981', '#6366f1', '#ec4899', '#8b5cf6'][$index] ?? '#cbd5e1' }}">
                                     </div>
-                                    <span
-                                        class="text-slate-300" style="color: #cbd5e1;">{{ Str::limit($expense->name, 20) }}</span>
+                                    <span class="text-slate-300"
+                                        style="color: #cbd5e1;">{{ Str::limit($expense->name, 20) }}</span>
                                 </div>
                                 <span class="text-white font-bold" x-show="showValues" style="color: #ffffff;"
                                     x-transition>{{ number_format($expense->total, 0) }}</span>
-                                <span class="text-slate-500 font-bold" x-show="!showValues" style="color: #64748b;">•••</span>
+                                <span class="text-slate-500 font-bold" x-show="!showValues"
+                                    style="color: #64748b;">•••</span>
                             </div>
                         @endforeach
                     </div>
                 </div>
             </div>
 
-            
+
 
         </div>
     </div>
@@ -253,7 +290,7 @@
                 // Hardcoded Dark Mode Colors since we are forcing dark theme
                 const textColor = '#94a3b8';
                 const gridColor = '#334155';
-                const isDark = true; 
+                const isDark = true;
 
                 // Trend Matrix
                 const trendCtx = document.getElementById('trendChart').getContext('2d');

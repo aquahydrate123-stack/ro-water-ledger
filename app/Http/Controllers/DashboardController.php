@@ -13,28 +13,43 @@ class DashboardController extends Controller
     public function index(Request $request)
     {
         $userId = auth()->id();
-        $filter = $request->get('filter', 'all');
+        $filter = $request->get('filter', 'daily'); // Default to today
         $startDateStr = $request->get('start_date');
         $endDateStr = $request->get('end_date');
 
         $startDate = null;
         $endDate = null;
+        $label = 'Today';
 
         if ($filter === 'daily') {
             $startDate = Carbon::today();
             $endDate = Carbon::today()->endOfDay();
+            $label = 'Today';
         } elseif ($filter === 'monthly') {
             $startDate = Carbon::now()->startOfMonth();
             $endDate = Carbon::now()->endOfDay();
+            $label = 'This Month';
+        } elseif ($filter === 'last_month') {
+            $startDate = Carbon::now()->subMonth()->startOfMonth();
+            $endDate = Carbon::now()->subMonth()->endOfMonth();
+            $label = 'Last Month';
         } elseif ($filter === 'yearly') {
             $startDate = Carbon::now()->startOfYear();
             $endDate = Carbon::now()->endOfDay();
+            $label = 'This Year';
+        } elseif ($filter === 'last_year') {
+            $startDate = Carbon::now()->subYear()->startOfYear();
+            $endDate = Carbon::now()->subYear()->endOfMonth();
+            $label = 'Last Year';
         } elseif ($filter === 'custom' && $startDateStr && $endDateStr) {
             $startDate = Carbon::parse($startDateStr)->startOfDay();
             $endDate = Carbon::parse($endDateStr)->endOfDay();
+            $label = 'Custom Period';
+        } elseif ($filter === 'all') {
+            $label = 'All Time';
         }
 
-        // Metrics queries using sale_date
+        // Metrics queries
         $salesQuery = Sale::where('user_id', $userId);
         $paymentsQuery = \App\Models\Payment::where('created_by', $userId);
         $expensesQuery = Expense::where('created_by', $userId);
@@ -51,8 +66,8 @@ class DashboardController extends Controller
         // 2. Total Expenses for period
         $totalExpenses = $expensesQuery->sum('amount');
 
-        // 3. Cash in Hand Calculation:
-        // (Cash Sales [refill + delivery-cash] + Payments Received) - Expenses
+        // 3. Today Net Cash (Net Cash for Period)
+        // Logic: (Cash Sales in period + Payments in period) - Expenses in period
         $cashSalesSum = Sale::where('user_id', $userId)
             ->where(function ($q) {
                 $q->where('sale_type', 'refill')
@@ -71,10 +86,22 @@ class DashboardController extends Controller
 
         $cashInHand = ($cashSalesSum + $paymentsSum) - $totalExpenses;
 
-        // 4. Total Receivables: Sum of ALL dynamic balances
-        // (This remains global unless business specifically wants "receivables as of date")
-        $customers = Customer::where('created_by', $userId)->get();
-        $totalReceivables = $customers->sum('balance');
+        // 4. Total Receivables as of End Date
+        // Logic: (Total Credit Sales until endDate) - (Total Payments until endDate)
+        $totalReceivableSales = Sale::where('user_id', $userId)
+            ->where('payment_type', 'credit')
+            ->when($endDate, function ($q) use ($endDate) {
+                return $q->where('sale_date', '<=', $endDate->toDateString());
+            })
+            ->sum('total_amount');
+
+        $totalReceivablePayments = \App\Models\Payment::where('created_by', $userId)
+            ->when($endDate, function ($q) use ($endDate) {
+                return $q->where('payment_date', '<=', $endDate->toDateString());
+            })
+            ->sum('amount');
+
+        $totalReceivables = (float) $totalReceivableSales - (float) $totalReceivablePayments;
 
         // Recent Sales
         $recentSales = Sale::where('user_id', $userId)
@@ -95,7 +122,7 @@ class DashboardController extends Controller
             ->orderByDesc('total')
             ->get();
 
-        // Analytics: Monthly Sales vs Expenses (Last 6 months using sale_date/expense_date)
+        // Analytics: Monthly Sales vs Expenses (Last 6 months)
         $monthlyStats = [];
         for ($i = 5; $i >= 0; $i--) {
             $month = Carbon::now()->subMonths($i);
@@ -125,7 +152,8 @@ class DashboardController extends Controller
             'monthlyStats',
             'filter',
             'startDateStr',
-            'endDateStr'
+            'endDateStr',
+            'label'
         ));
     }
 }
