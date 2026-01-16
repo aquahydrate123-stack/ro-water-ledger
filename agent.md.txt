@@ -1,0 +1,105 @@
+You are a senior Laravel architect.
+
+Create a Laravel 10 project for a local business management system named "Aqua Hydrate".
+
+Environment:
+- Localhost using Laragon
+- PHP 8.1+
+- MySQL
+- No API, web app only
+- Authentication using Laravel Breeze (Blade)
+
+Project requirements:
+This system manages an RO water business with two owners only (no staff).
+
+--------------------
+AUTHENTICATION
+--------------------
+- Use Laravel Breeze with Blade
+- Users table represents owners only
+- Role column fixed as 'owner'
+
+--------------------
+DATABASE STRUCTURE
+--------------------
+Create migrations exactly as follows:
+
+1) users table
+- id (bigint, primary)
+- name (string 100)
+- email (string 150, unique)
+- password
+- role (enum: 'owner')
+- timestamps
+
+2) customers table
+- id (bigint, primary)
+- name (string 150)
+- phone (string 20)
+- address (text, nullable)
+- status (enum: 'active','inactive')
+- created_by (foreign key users.id)
+- timestamps
+
+3) sales table
+- id (bigint, primary)
+- customer_id (foreign key customers.id, nullable)
+- sale_type (enum: 'refill','delivery')
+- payment_type (enum: 'cash','credit')
+- quantity (integer)
+- rate (decimal 10,2)
+- total_amount (decimal 10,2)
+- sale_date (date)
+- created_by (foreign key users.id)
+- updated_by (foreign key users.id)
+- timestamps
+
+4) payments table
+- id (bigint, primary)
+- customer_id (foreign key customers.id)
+- amount (decimal 10,2)
+- payment_date (date)
+- notes (text, nullable)
+- created_by (foreign key users.id)
+- timestamps
+
+5) expenses table
+- id (bigint, primary)
+- expense_type (enum: 'business','personal')
+- category (string 100)
+- amount (decimal 10,2)
+- expense_date (date)
+- notes (text, nullable)
+- created_by (foreign key users.id)
+- timestamps
+
+6) invoices table
+- id (bigint, primary)
+- sale_id (foreign key sales.id)
+- invoice_number (string 50, unique)
+- invoice_date (date)
+- timestamps
+
+--------------------
+RULES
+--------------------
+- Walk-in refill sales have customer_id = NULL
+- Credit balance is NOT stored in DB (calculated dynamically)
+- Use proper foreign key constraints
+- Use cascading deletes only where safe
+- Use Laravel naming conventions
+- No extra tables
+- No sample data
+- No controllers yet except auth
+- No UI styling work yet
+
+--------------------
+OUTPUT EXPECTATION
+--------------------
+- Laravel project structure
+- Breeze installed and configured
+- All migrations created correctly
+- Ready to run `php artisan migrate`
+- No explanations, just correct implementation
+
+Think carefully and generate correct, production-ready Laravel code in one pass.
