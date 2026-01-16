@@ -53,6 +53,41 @@
                 </a>
             </div>
 
+            <!-- Filter Controls -->
+            <div style="background-color: #1e293b; border-color: #334155;"
+                class="flex flex-col sm:flex-row justify-between items-center p-4 rounded-xl border shadow-sm mb-8 space-y-4 sm:space-y-0">
+                <span class="text-xs font-bold text-slate-400 uppercase tracking-wide">Data Filter</span>
+                <form action="{{ route('dashboard') }}" method="GET" class="flex flex-wrap items-center gap-3">
+                    <select name="filter" onchange="this.form.submit()"
+                        class="text-xs font-semibold border-none rounded-lg py-2 pl-4 pr-10 text-slate-300 focus:ring-2 focus:ring-blue-500 cursor-pointer transition-colors"
+                        style="background-color: #334155;">
+                        <option value="daily" {{ $filter == 'daily' ? 'selected' : '' }}>Today</option>
+                        <option value="monthly" {{ $filter == 'monthly' ? 'selected' : '' }}>This Month</option>
+                        <option value="last_month" {{ $filter == 'last_month' ? 'selected' : '' }}>Last Month</option>
+                        <option value="yearly" {{ $filter == 'yearly' ? 'selected' : '' }}>This Year</option>
+                        <option value="last_year" {{ $filter == 'last_year' ? 'selected' : '' }}>Last Year</option>
+                        <option value="all" {{ $filter == 'all' ? 'selected' : '' }}>All Time</option>
+                        <option value="custom" {{ $filter == 'custom' ? 'selected' : '' }}>Custom Period</option>
+                    </select>
+
+                    @if($filter === 'custom')
+                        <div class="flex items-center space-x-2">
+                            <input type="date" name="start_date" value="{{ $startDateStr }}"
+                                class="text-xs font-semibold border-none rounded-lg py-1.5 px-3 text-slate-300 focus:ring-2 focus:ring-blue-500"
+                                style="background-color: #334155;">
+                            <span class="text-slate-500 text-xs">to</span>
+                            <input type="date" name="end_date" value="{{ $endDateStr }}"
+                                class="text-xs font-semibold border-none rounded-lg py-1.5 px-3 text-slate-300 focus:ring-2 focus:ring-blue-500"
+                                style="background-color: #334155;">
+                            <button type="submit"
+                                class="bg-blue-600 hover:bg-blue-500 text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-lg transition-colors">
+                                Apply
+                            </button>
+                        </div>
+                    @endif
+                </form>
+            </div>
+
             <div style="height: 1rem;"></div>
 
             <!-- 1. Summary Cards Section (V2 - Match Screenshot - INLINE STYLES) -->
@@ -199,40 +234,7 @@
 
 
 
-            <!-- Filter Controls -->
-            <div style="background-color: #1e293b; border-color: #334155;"
-                class="flex flex-col sm:flex-row justify-between items-center p-4 rounded-xl border shadow-sm mb-8 space-y-4 sm:space-y-0">
-                <span class="text-xs font-bold text-slate-400 uppercase tracking-wide">Data Filter</span>
-                <form action="{{ route('dashboard') }}" method="GET" class="flex flex-wrap items-center gap-3">
-                    <select name="filter" onchange="this.form.submit()"
-                        class="text-xs font-semibold border-none rounded-lg py-2 pl-4 pr-10 text-slate-300 focus:ring-2 focus:ring-blue-500 cursor-pointer transition-colors"
-                        style="background-color: #334155;">
-                        <option value="daily" {{ $filter == 'daily' ? 'selected' : '' }}>Today</option>
-                        <option value="monthly" {{ $filter == 'monthly' ? 'selected' : '' }}>This Month</option>
-                        <option value="last_month" {{ $filter == 'last_month' ? 'selected' : '' }}>Last Month</option>
-                        <option value="yearly" {{ $filter == 'yearly' ? 'selected' : '' }}>This Year</option>
-                        <option value="last_year" {{ $filter == 'last_year' ? 'selected' : '' }}>Last Year</option>
-                        <option value="all" {{ $filter == 'all' ? 'selected' : '' }}>All Time</option>
-                        <option value="custom" {{ $filter == 'custom' ? 'selected' : '' }}>Custom Period</option>
-                    </select>
 
-                    @if($filter === 'custom')
-                        <div class="flex items-center space-x-2">
-                            <input type="date" name="start_date" value="{{ $startDateStr }}"
-                                class="text-xs font-semibold border-none rounded-lg py-1.5 px-3 text-slate-300 focus:ring-2 focus:ring-blue-500"
-                                style="background-color: #334155;">
-                            <span class="text-slate-500 text-xs">to</span>
-                            <input type="date" name="end_date" value="{{ $endDateStr }}"
-                                class="text-xs font-semibold border-none rounded-lg py-1.5 px-3 text-slate-300 focus:ring-2 focus:ring-blue-500"
-                                style="background-color: #334155;">
-                            <button type="submit"
-                                class="bg-blue-600 hover:bg-blue-500 text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-lg transition-colors">
-                                Apply
-                            </button>
-                        </div>
-                    @endif
-                </form>
-            </div>
 
             <!-- 2. Analytical Charts -->
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
